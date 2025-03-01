@@ -1,4 +1,4 @@
-package Tienda;
+package Tienda.Modelo;
 
 public class Resena {
     private Comprador comprador;    // Composición (diamante blanco)

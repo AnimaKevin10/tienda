@@ -1,4 +1,4 @@
-package Tienda;
+package Tienda.Modelo;
 import java.util.List;
 import java.util.ArrayList;
 public class Vendedor extends Usuario {

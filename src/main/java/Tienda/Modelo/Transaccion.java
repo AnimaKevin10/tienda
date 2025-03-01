@@ -1,4 +1,4 @@
-package Tienda;
+package Tienda.Modelo;
 
 public class Transaccion {
     private Comprador comprador;

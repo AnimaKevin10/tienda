@@ -1,4 +1,4 @@
-package Tienda;
+package Tienda.Modelo;
 
 public class Usuario {
     private int idUsuario;

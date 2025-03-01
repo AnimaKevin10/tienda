@@ -1,4 +1,4 @@
-package Tienda;
+package Tienda.Modelo;
 public class Comprador extends Usuario {
     private Historial historial;
 
@@ -7,7 +7,7 @@ public class Comprador extends Usuario {
         this.historial = historial;
     }
 
-    public Comprador(int idUsuario, String anaLópez, String mail, String clave123, String nombre) {
+    public Comprador(int idUsuario, String nombre, String correo, String contraseña, String direección){
         super( idUsuario,nombre);
         this.historial = new Historial();
     }

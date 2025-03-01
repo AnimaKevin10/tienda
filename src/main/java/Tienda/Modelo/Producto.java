@@ -1,4 +1,4 @@
-package Tienda;
+package Tienda.Modelo;
 
 public class Producto {
     private String titulo;
