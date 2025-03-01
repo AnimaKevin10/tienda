@@ -2,6 +2,8 @@ package Tienda.Controlador;
 
 import Tienda.Modelo.*;
 import Tienda.Vista.VistaTienda;
+
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,19 +66,42 @@ public class ControladorTienda {
 
     private void realizarTransaccion() {
         if (compradorActual == null || vendedorActual == null) {
-            vista.mostrarMensaje("Registre comprador y vendedor primero");
+            vista.mostrarMensaje("Debe registrar comprador y vendedor primero");
             return;
         }
 
-        Transaccion t = new Transaccion(
-                compradorActual,
-                vendedorActual,
-                100.0, // Simula un total
-                "Efectivo"
-        );
+        // Selección de productos
+        List<Producto> productosSeleccionados = vista.seleccionarProductos(productosDisponibles);
 
-        historial.agregarTransaccion(t);
-        vista.mostrarMensaje("Transacción exitosa: $" + t.getTotal());
+        if(productosSeleccionados.isEmpty()) {
+            vista.mostrarMensaje("No seleccionó ningún producto");
+            return;
+        }
+
+        // Calcular total
+        double total = productosSeleccionados.stream()
+                .mapToDouble(Producto::getPrecio)
+                .sum();
+
+        vista.mostrarTotal(total);
+
+        // Confirmar compra
+        int confirmacion = JOptionPane.showConfirmDialog(null,
+                "¿Confirmar compra por $" + String.format("%.2f", total) + "?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+
+        if(confirmacion == JOptionPane.YES_OPTION) {
+            Transaccion t = new Transaccion(
+                    compradorActual,
+                    vendedorActual,
+                    total, // Total real calculado
+                    "Tarjeta" // añadir selector de metodo de pago
+            );
+
+            historial.agregarTransaccion(t);
+            vista.mostrarMensaje("¡Compra exitosa!");
+        }
     }
 
     private void verHistorial() {
