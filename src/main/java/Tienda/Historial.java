@@ -1,6 +1,6 @@
 package Tienda;
-
 import java.util.List;
+import java.util.ArrayList; // Importación faltante
 
 public class Historial {
     private List<Transaccion> transacciones;
@@ -8,7 +8,7 @@ public class Historial {
 
     public Historial(Comprador comprador) {
         this.comprador = comprador;
-        this.transacciones = new ArrayList<>();
+        this.transacciones = new ArrayList<>(); // Requiere java.util.ArrayList
     }
 
     public void agregarTransaccion(Transaccion transaccion) {
@@ -17,7 +17,7 @@ public class Historial {
 
     public void verHistorial() {
         for (Transaccion t : transacciones) {
-            System.out.println(t);
+            System.out.println(t); // Asegúrate de que Transaccion tenga toString()
         }
     }
 
