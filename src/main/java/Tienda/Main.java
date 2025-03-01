@@ -7,7 +7,7 @@ import java.util.Date;
 public class Main {
     public static void main(String[] args) {
         // 1. Crear instancias básicas ==========================================
-        MetodoDePago tarjeta = new TarjetaDeCredito("1234-5678-9012-3456");
+        //MetodoDePago tarjeta = new TarjetaDeCredito("1234-5678-9012-3456");
         Historial historialComprador = new Historial();
         Historial historialVendedor = new Historial();
 
