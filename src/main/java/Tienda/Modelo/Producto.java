@@ -15,10 +15,6 @@ public class Producto {
     }
 
     // ------------------ Getters necesarios ------------------
-    public double getPrecio() {
-        return precio;
-    }
-
     public int getStock() {
         return stock;
     }
@@ -33,4 +29,10 @@ public class Producto {
     public void setStock(int nuevoStock) {
         this.stock = nuevoStock;
     }
-}
+    @Override
+    public String toString() {
+        return titulo + " - $" + String.format("%.2f", precio);
+    }
+    public double getPrecio() {
+        return precio;
+    }}
