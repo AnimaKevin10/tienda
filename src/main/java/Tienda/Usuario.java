@@ -11,7 +11,7 @@ public class Usuario {
     private String telefono;
     //Constructores
     //Constructor para datos básicos
-    public Usuario(String nombre, String direccion, String numeroTarjeta, String telefono) {
+    public Usuario(String nombre, String direccion) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.numeroTarjeta = numeroTarjeta;
@@ -28,7 +28,13 @@ public class Usuario {
         this.telefono = "";
         this.numeroTarjeta = "";
     }
-
+    //Constructor Id
+    public Usuario(int idnombre, String nombre) {
+    this.nombre = nombre;
+    this.direccion = direccion;
+    this.numeroTarjeta = numeroTarjeta;
+    this.telefono = telefono;
+}
     // Getters (Accesores)
     public int getIdUsuario() {
         return idUsuario;

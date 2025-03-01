@@ -1,4 +1,6 @@
 package Tienda;
+import java.util.List;
+import java.util.ArrayList;
 public class Vendedor extends Usuario {
     private List<Producto> inventario;
     private double saldo;
@@ -6,6 +8,11 @@ public class Vendedor extends Usuario {
     // Constructor con autenticación
     public Vendedor(int idUsuario, String nombre, String correo, String contrasena, String direccion) {
         super(idUsuario, nombre, correo, contrasena, direccion);
+        this.inventario = new ArrayList<>();
+        this.saldo = 0.0;
+    }
+    public Vendedor(int idUsuario, String nombre) {
+        super(idUsuario, nombre);
         this.inventario = new ArrayList<>();
         this.saldo = 0.0;
     }
