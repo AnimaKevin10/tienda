@@ -52,12 +52,14 @@ public class InicioSesion extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        Usuariotexto = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPanel3 = new javax.swing.JPanel();
+        UsuarioField = new javax.swing.JTextField();
+        ContraseñaField = new javax.swing.JPasswordField();
+        btn_Entrar = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocationByPlatform(true);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 51));
         jPanel1.setToolTipText("");
@@ -73,42 +75,48 @@ public class InicioSesion extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("INICIAR SESIÓN");
 
-        Usuariotexto.setBackground(new java.awt.Color(255, 255, 255));
-        Usuariotexto.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
-        Usuariotexto.setForeground(new java.awt.Color(153, 153, 153));
-        Usuariotexto.setText("Usuario");
-        Usuariotexto.addActionListener(new java.awt.event.ActionListener() {
+        UsuarioField.setBackground(new java.awt.Color(255, 255, 255));
+        UsuarioField.setFont(new java.awt.Font("Roboto Black", 0, 12)); // NOI18N
+        UsuarioField.setForeground(new java.awt.Color(153, 153, 153));
+        UsuarioField.setText("Usuario");
+        UsuarioField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UsuariotextoActionPerformed(evt);
+                UsuarioFieldActionPerformed(evt);
             }
         });
 
-        jPasswordField1.setBackground(new java.awt.Color(255, 255, 255));
-        jPasswordField1.setText("Contraseña");
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        ContraseñaField.setBackground(new java.awt.Color(255, 255, 255));
+        ContraseñaField.setText("Contraseña");
+        ContraseñaField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                ContraseñaFieldActionPerformed(evt);
             }
         });
 
-        jPanel3.setBackground(new java.awt.Color(51, 255, 153));
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
-        jPanel3.setToolTipText("INICIAR");
+        btn_Entrar.setBackground(new java.awt.Color(51, 255, 153));
+        btn_Entrar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        btn_Entrar.setToolTipText("INICIAR");
+        btn_Entrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_Entrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_EntrarMouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("ENTRAR");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout btn_EntrarLayout = new javax.swing.GroupLayout(btn_Entrar);
+        btn_Entrar.setLayout(btn_EntrarLayout);
+        btn_EntrarLayout.setHorizontalGroup(
+            btn_EntrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_EntrarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        btn_EntrarLayout.setVerticalGroup(
+            btn_EntrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
@@ -122,10 +130,10 @@ public class InicioSesion extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                            .addComponent(Usuariotexto))
+                            .addComponent(ContraseñaField, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(UsuarioField))
                         .addGap(84, 84, 84)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_Entrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -136,13 +144,13 @@ public class InicioSesion extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(Usuariotexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(UsuarioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ContraseñaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_Entrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(118, 118, 118))))
         );
 
@@ -162,13 +170,17 @@ public class InicioSesion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void UsuariotextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuariotextoActionPerformed
+    private void UsuarioFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_UsuariotextoActionPerformed
+    }//GEN-LAST:event_UsuarioFieldActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void ContraseñaFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContraseñaFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_ContraseñaFieldActionPerformed
+
+    private void btn_EntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_EntrarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_EntrarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -206,13 +218,23 @@ public class InicioSesion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Usuariotexto;
+    private javax.swing.JPasswordField ContraseñaField;
+    private javax.swing.JTextField UsuarioField;
+    private javax.swing.JPanel btn_Entrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
     // End of variables declaration//GEN-END:variables
+
+    // Metodo para obtener el usuario
+    public String getUsuario() {
+        return UsuarioField.getText();
+    }
+
+    // Metodo para obtener la contraseña
+    public String getContrasena() {
+        return new String(ContraseñaField.getPassword());
+    }
 }
