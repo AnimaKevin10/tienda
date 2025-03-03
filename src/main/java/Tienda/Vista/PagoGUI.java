@@ -1,4 +1,4 @@
-package View;
+package Tienda.Vista;
 
 import Model.MetodoDePago;
 import Model.TarjetaRegalo;
