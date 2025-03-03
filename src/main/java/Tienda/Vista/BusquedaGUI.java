@@ -1,4 +1,4 @@
-package Vista;
+package Tienda.Vista;
 
 import Model.*;
 import javax.swing.*;
