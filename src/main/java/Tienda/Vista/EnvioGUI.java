@@ -1,4 +1,4 @@
-package View;
+package Vista;
 
 import Model.MetodoEnvio;
 import javax.swing.*;
