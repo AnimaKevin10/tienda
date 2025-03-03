@@ -7,13 +7,16 @@ public class Historial {
 
     public Historial() {
         transacciones = new ArrayList<>();
+        System.out.println("[HISTORIAL] Historial creado");
     }
 
     public void agregarTransaccion(Transaccion transaccion) {
         transacciones.add(transaccion);
+        System.out.println("[HISTORIAL] Transacción añadida: " + transaccion.getProducto().getTitulo());
     }
 
     public List<Transaccion> getTransacciones() {
+        System.out.println("[HISTORIAL] Obteniendo transacciones: " + transacciones.size());
         return transacciones;
     }
 }

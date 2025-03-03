@@ -6,32 +6,24 @@ package Tienda.Vista;
 
 import Tienda.Controlador.CompradorController;
 import Tienda.Modelo.Comprador;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JScrollBar;
-import javax.swing.JTextField;
-
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import Tienda.Modelo.*;
 public class VistaComprador extends javax.swing.JFrame {
     private Comprador comprador;
     private CompradorController controlador; // Nuevo campo para el controlador
-
+    private JPanel mainContentPanel; // Panel contenedor CardLayout
+    private JPanel historialPanel;   // Panel para el historial
+    private JTable tablaHistorial;   // Tabla de historial
+    private DefaultTableModel modeloTabla; // Modelo de datos
     public VistaComprador(Comprador comprador) {
         this.comprador = comprador;
         initComponents();
+
+        crearPanelHistorial();
+        configurarContenedorPrincipal();
+
         this.controlador = new CompradorController(comprador, this);
         this.setLocationRelativeTo(this);
         SetImageLabel(fotoperfil, "C:/Users/AnimaKevin/OneDrive/Desktop/codigo/tienda/src/main/resources/foto.png");
@@ -41,6 +33,58 @@ public class VistaComprador extends javax.swing.JFrame {
     public CompradorController getControlador() {
         return controlador;
     }
+    private void configurarContenedorPrincipal() {
+        // 1. Crear contenedor principal CardLayout
+        mainContentPanel = new JPanel(new CardLayout());
+        mainContentPanel.add(jPanel1, "infoBasica");
+        mainContentPanel.add(historialPanel, "historial");
+
+        // 2. Crear panel vertical para foto y menú
+        JPanel panelIzquierdo = new JPanel();
+        panelIzquierdo.setLayout(new BoxLayout(panelIzquierdo, BoxLayout.Y_AXIS));
+        panelIzquierdo.setBackground(new Color(153, 255, 153)); // Color del panel original
+
+        // 3. Configurar foto de perfil
+        fotoperfil.setAlignmentX(Component.CENTER_ALIGNMENT);
+        fotoperfil.setMaximumSize(new Dimension(170, 170));
+        panelIzquierdo.add(fotoperfil);
+        panelIzquierdo.add(Box.createVerticalStrut(20)); // Espacio entre foto y menú
+
+        // 4. Configurar scroll del menú
+        slidemenu.setPreferredSize(new Dimension(180, 300));
+        slidemenu.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelIzquierdo.add(slidemenu);
+
+        // 5. Reorganizar el panel principal (jPanel6)
+        jPanel6.removeAll();
+        jPanel6.setLayout(new BorderLayout(20, 0)); // Espacio horizontal de 20px
+        jPanel6.add(panelIzquierdo, BorderLayout.WEST);
+        jPanel6.add(mainContentPanel, BorderLayout.CENTER);
+
+        // 6. Ajustes finales
+        jPanel6.revalidate();
+        jPanel6.repaint();
+
+        System.out.println("[DISEÑO] Componentes reorganizados correctamente");
+    }
+    private void crearPanelHistorial() {
+        historialPanel = new JPanel(new BorderLayout());
+
+        // Configurar modelo de tabla
+        String[] columnas = {"Fecha", "Producto", "Cantidad", "Total"};
+        modeloTabla = new DefaultTableModel(columnas, 0);
+        tablaHistorial = new JTable(modeloTabla);
+
+        // Estilo de la tabla
+        tablaHistorial.setRowHeight(30);
+        tablaHistorial.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 14));
+
+        JScrollPane scrollHistorial = new JScrollPane(tablaHistorial);
+        scrollHistorial.setPreferredSize(new Dimension(700, 400));
+
+        historialPanel.add(scrollHistorial, BorderLayout.CENTER);
+    }
+
     private void configurarCamposSoloLectura() {
         // Campos de usuario (no editables)
         usuarioNombre.setEditable(false);
@@ -96,7 +140,6 @@ public class VistaComprador extends javax.swing.JFrame {
         javax.swing.JPanel panelMenu = new javax.swing.JPanel();
         panelMenu.setBackground(new Color(240, 240, 240));
         panelMenu.setLayout(new javax.swing.BoxLayout(panelMenu, javax.swing.BoxLayout.Y_AXIS));
-
         // Configurar el scroll
         slidemenu.setBorder(null);
         slidemenu.setViewportView(panelMenu); // Usar el nuevo panel
@@ -110,7 +153,7 @@ public class VistaComprador extends javax.swing.JFrame {
         // Añadir elementos al nuevo panel
         Color colorBoton = new Color(0, 153, 153);
         // Añadir elementos al nuevo panel
-        for(int i = 1; i <= 20; i++) {
+        for(int i = 1; i <= 10; i++) {
             String textoBoton = switch(i) {
                 case 1 -> "Información Básica";
                 case 2 -> "Historial de Compras";
@@ -120,12 +163,17 @@ public class VistaComprador extends javax.swing.JFrame {
 
             JButton boton = new JButton(textoBoton);
 
-            if (i == 1) {
-                boton.addActionListener(e -> {
-                    // Usar el controlador existente en lugar de crear uno nuevo
+            boton.addActionListener(e -> {
+                System.out.println("[DEBUG] Botón presionado: " + textoBoton);
+                if (textoBoton.equals("Información Básica")) {
                     controlador.cargarDatosUsuario();
-                });
-            }
+                    mostrarPanel("infoBasica");
+                } else if (textoBoton.equals("Historial de Compras")) {
+                    System.out.println("[DEBUG] Transacciones: " + comprador.getHistorial().getTransacciones().size());
+                    controlador.cargarHistorialCompras();
+                    mostrarPanel("historial");
+                }
+            });
             boton.setMaximumSize(new Dimension(180, 40));
             boton.setAlignmentX(0.5f);
             boton.setBackground(colorBoton);
@@ -135,6 +183,7 @@ public class VistaComprador extends javax.swing.JFrame {
             panelMenu.add(boton);
             panelMenu.add(Box.createRigidArea(new Dimension(0, 5)));
         }
+
     }
     private void SetImageLabel(JLabel labelName, String root) {
         ImageIcon image = new ImageIcon(root);
@@ -457,7 +506,21 @@ public class VistaComprador extends javax.swing.JFrame {
     private void usuarioTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usuarioTelefonoActionPerformed
+    private void mostrarPanel(String nombrePanel) {
+        System.out.println("[DEBUG] Intentando mostrar panel: " + nombrePanel);
+        CardLayout cl = (CardLayout)(mainContentPanel.getLayout());
+        cl.show(mainContentPanel, nombrePanel);
 
+        // Forzar actualización de la interfaz
+        mainContentPanel.revalidate();
+        mainContentPanel.repaint();
+        System.out.println("[DEBUG] Panel mostrado: " + nombrePanel);
+    }
+
+    // NUEVO GETTER para el modelo de tabla
+    public DefaultTableModel getModeloTabla() {
+        return modeloTabla;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fotoperfil;
@@ -525,4 +588,6 @@ public class VistaComprador extends javax.swing.JFrame {
             g2.dispose();
         }
     }
+    public JTable getTablaHistorial() {
+        return tablaHistorial;}
 }

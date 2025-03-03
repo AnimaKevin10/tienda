@@ -20,6 +20,11 @@ public class Producto {
         this.stock = stock;
     }
 
+    public Producto(String titulo, double precio) {
+        this.titulo=titulo;
+        this.precio=precio;
+    }
+
     // ------------------ Getters ------------------
     public int getStock() {
         return stock;

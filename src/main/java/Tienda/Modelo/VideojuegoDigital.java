@@ -11,6 +11,10 @@ public class VideojuegoDigital extends Videojuego {
         this.drm = drm;
     }
 
+    public VideojuegoDigital(String titulo, double precio) {
+        super(titulo, precio);
+    }
+
     // ------------------ Getters ------------------
     public double getTamanioDescarga() {
         return tamanoDescarga;

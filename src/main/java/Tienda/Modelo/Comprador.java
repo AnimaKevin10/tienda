@@ -36,8 +36,8 @@ public class Comprador extends Usuario {
         this.historial = new Historial();
     }
 
-    public void facturar(Vendedor vendedor, double total, String metodoReembolso) {
-        Transaccion transaccion = new Transaccion(this, vendedor, total, metodoReembolso);
+    public void facturar(Vendedor vendedor, double total, String metodoReembolso, Producto producto) {
+        Transaccion transaccion = new Transaccion(this, vendedor, producto, total, metodoReembolso);
         historial.agregarTransaccion(transaccion);
         // El carrito lo maneja otro, así que no lo tocamos aquí
     }

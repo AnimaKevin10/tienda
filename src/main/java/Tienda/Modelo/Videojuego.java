@@ -11,6 +11,10 @@ public class Videojuego extends Producto {
         this.desarrollador = desarrollador;
     }
 
+    public Videojuego(String titulo, double precio) {
+        super(titulo, precio);
+    }
+
     // ------------------ Getters ------------------
     public String getGenero() {
         return genero;

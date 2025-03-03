@@ -11,6 +11,10 @@ public class VideojuegoFisico extends Videojuego {
         this.dimensiones = dimensiones;
     }
 
+    public VideojuegoFisico(String titulo, double precio) {
+            super(titulo, precio);
+    }
+
     // ------------------ Getters ------------------
     public double getPeso() {
         return peso;
