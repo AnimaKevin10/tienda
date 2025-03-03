@@ -50,9 +50,9 @@ public class LoginController extends MouseAdapter {
                 "Ana Pérez",
                 "ana@tienda.com",
                 "contraseña",
-                "555-1234",
+                "2000-01-01",
                 "Calle Falsa 123",
-                "2000-01-01", // Fecha de nacimiento
+                "555-1234", // Fecha de nacimiento
                 new Historial()
         );
     }

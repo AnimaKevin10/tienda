@@ -1,3 +1,4 @@
+
 package Tienda.Modelo;
 
 public class Comprador extends Usuario {

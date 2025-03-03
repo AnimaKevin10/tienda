@@ -17,7 +17,7 @@ public class ResultadoBusqueda {
 
     public ResultadoBusqueda filtrarPorCategoria(String categoria) {
         List<Producto> filtrados = resultados.stream()
-                .filter(producto -> producto.getCategoria().equalsIgnoreCase(categoria))
+                //.filter(producto -> producto.getCategoria().equalsIgnoreCase(categoria))
                 .collect(Collectors.toList());
         return new ResultadoBusqueda(filtrados);
     }
