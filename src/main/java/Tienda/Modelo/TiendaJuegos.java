@@ -47,7 +47,7 @@ public class TiendaJuegos {
     }
 
     public void procesarCompra(Comprador comprador) {
-        double total = comprador.getCarrito().calcularTotal();
+        double total = comprador.Carrito().calcularTotal();
         if (comprador.getMetodoPago().procesarPago(total)) {
             System.out.println("Compra procesada con éxito.");
             comprador.getCarrito().limpiarCarrito();

@@ -2,13 +2,30 @@ package Tienda.Modelo;
 public class Comprador extends Usuario {
     private Historial historial;
 
-    public Comprador(int idUsuario, String nombre, String correo, String contrasena, String fechaNacimiento, Historial historial) {
+    // Constructor completo
+    public Comprador(
+        int idUsuario, 
+        String nombre, 
+        String correo, 
+        String contrasena, 
+        String fechaNacimiento,
+        String direccion,
+        String telefono,
+        Historial historial
+    ) {
         super(idUsuario, nombre, correo, contrasena, fechaNacimiento);
+        super.setDireccion(direccion);
+        super.setTelefono(telefono);
         this.historial = historial;
     }
 
-    public Comprador(int idUsuario, String nombre, String correo, String contraseña, String direección){
-        super( idUsuario,nombre);
+    // Constructor simplificado
+    public Comprador(int idUsuario, String nombre, String correo, String contrasena, String direccion) {
+        super(idUsuario, nombre);
+        super.setCorreo(correo);
+        super.setContrasena(contrasena);
+        super.setDireccion(direccion);
+        super.setFechaNacimiento("2000-01-01"); //  Fecha por defecto
         this.historial = new Historial();
     }
 
