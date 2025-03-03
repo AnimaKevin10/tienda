@@ -1,4 +1,4 @@
-package Model;
+package Tienda.Modelo;
 
 public class MetodoEnvio {
     private String tipo;
