@@ -1,16 +1,25 @@
 package Tienda.Controlador;
 
-import Tienda.Modelo.*;
-import Tienda.Vista.*;
-
+import Tienda.Modelo.Comprador;
+import Tienda.Modelo.Historial;
+import Tienda.Vista.EnvioGUI;
+import Tienda.Vista.InicioSesion;
+import Tienda.Vista.VistaComprador;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
+
 public class LoginController extends MouseAdapter {
-    private InicioSesion vista;
+    private final InicioSesion vista;
 
     public LoginController(InicioSesion vista) {
         this.vista = vista;
+        configurarAccesos();
+    }
+
+    private void configurarAccesos() {
+        vista.getJLabel3().setEnabled(false); // Ejemplo de uso de getter
+        vista.agregarControlador(this); // Conecta el botón al controlador
     }
 
     @Override
@@ -18,35 +27,52 @@ public class LoginController extends MouseAdapter {
         String usuario = vista.getUsuario();
         String contrasena = vista.getContrasena();
 
-        // Simulación de autenticación (reemplazar con lógica real)
-        if (usuario.equals("comprador") && contrasena.equals("123")) {
-            // Crear comprador con datos reales
-            Comprador compradorAutenticado = new Comprador(
-                    123, // ID
-                    "Ana Pérez", // Nombre
-                    "ana@tienda.com", // Correo
-                    "Calle Falsa 123", // Dirección
-                    "555-1234" // Teléfono
-            );
-            abrirVistaComprador(compradorAutenticado);
-        } else if (usuario.equals("vendedor") && contrasena.equals("456")) {
+        if (autenticarComprador(usuario, contrasena)) {
+            abrirVistaComprador(crearCompradorEjemplo());
+        } else if (autenticarVendedor(usuario, contrasena)) {
             abrirVistaVendedor();
         } else {
-            JOptionPane.showMessageDialog(vista, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+            mostrarErrorCredenciales();
         }
     }
 
+    private boolean autenticarComprador(String usuario, String contrasena) {
+        return usuario.equals("comprador") && contrasena.equals("123");
+    }
+
+    private boolean autenticarVendedor(String usuario, String contrasena) {
+        return usuario.equals("vendedor") && contrasena.equals("456");
+    }
+
+    private Comprador crearCompradorEjemplo() {
+        return new Comprador(
+                123,
+                "Ana Pérez",
+                "ana@tienda.com",
+                "contraseña",
+                "555-1234",
+                "Calle Falsa 123",
+                "2000-01-01", // Fecha de nacimiento
+                new Historial()
+        );
+    }
+
     private void abrirVistaComprador(Comprador comprador) {
-        // Cerrar vista actual y abrir nueva vista
         vista.dispose();
-        VistaComprador compradorPantalla = new VistaComprador(comprador);
-        new CompradorController(comprador, compradorPantalla); // Pasar comprador autenticado
-        compradorPantalla.setVisible(true);
+        new VistaComprador(comprador).setVisible(true);
     }
 
     private void abrirVistaVendedor() {
         vista.dispose();
-        EnvioGUI vendedorPantalla = new EnvioGUI();
-        vendedorPantalla.setVisible(true);
+        new EnvioGUI().setVisible(true);
+    }
+
+    private void mostrarErrorCredenciales() {
+        JOptionPane.showMessageDialog(
+                vista,
+                "Credenciales incorrectas",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
     }
 }

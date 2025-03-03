@@ -26,15 +26,21 @@ import javax.swing.JScrollBar;
 import javax.swing.JTextField;
 
 public class VistaComprador extends javax.swing.JFrame {
+    private Comprador comprador;
+    private CompradorController controlador; // Nuevo campo para el controlador
+
     public VistaComprador(Comprador comprador) {
         this.comprador = comprador;
         initComponents();
+        this.controlador = new CompradorController(comprador, this);
         this.setLocationRelativeTo(this);
         SetImageLabel(fotoperfil, "C:/Users/AnimaKevin/OneDrive/Desktop/codigo/tienda/src/main/resources/foto.png");
         configurarMenuDeslizable();
         configurarCamposSoloLectura();
     }
-
+    public CompradorController getControlador() {
+        return controlador;
+    }
     private void configurarCamposSoloLectura() {
         // Campos de usuario (no editables)
         usuarioNombre.setEditable(false);
@@ -79,11 +85,11 @@ public class VistaComprador extends javax.swing.JFrame {
     private javax.swing.JTextField usuarioDireccionField;
 
     // Getters para los campos
-    public JTextField getUsuarioNombreField() { return usuarioNombre; }
-    public JTextField getUsuarioIdField() { return usuarioID; }
-    public JTextField getUsuarioCorreoField() { return usuarioCorreo; }
-    public JTextField getUsuarioDireccionField() { return usuarioDireccion; }
-    public JTextField getUsuarioNacimiento() { return usuarioNacimiento; } // Añadir este
+    public JTextField getUsuarioNombre() { return usuarioNombre; }
+    public JTextField getUsuarioID() { return usuarioID; }
+    public JTextField getUsuarioCorreo() { return usuarioCorreo; }
+    public JTextField getUsuarioDireccion() { return usuarioDireccion; }
+    public JTextField getUsuarioNacimiento() { return usuarioNacimiento; }
     public JTextField getUsuarioTelefono() { return usuarioTelefono; }
 private void configurarMenuDeslizable() {
     // Crear un nuevo panel para el menú
@@ -114,10 +120,10 @@ private void configurarMenuDeslizable() {
 
         JButton boton = new JButton(textoBoton);
 
-        if(i == 1) {
+        if (i == 1) {
             boton.addActionListener(e -> {
-                // Usar el comprador real de la instancia
-                new CompradorController(this.comprador, this).cargarDatosUsuario();
+                // Usar el controlador existente en lugar de crear uno nuevo
+                controlador.cargarDatosUsuario();
             });
         }
         boton.setMaximumSize(new Dimension(180, 40));
@@ -452,13 +458,6 @@ private void configurarMenuDeslizable() {
         // TODO add your handling code here:
     }//GEN-LAST:event_usuarioTelefonoActionPerformed
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VistaComprador().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel fotoperfil;

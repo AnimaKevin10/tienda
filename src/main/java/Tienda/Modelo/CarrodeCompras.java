@@ -27,4 +27,7 @@ public class CarrodeCompras {
     public List<Producto> getProductos() {
         return productos;
     }
+
+    public void limpiarCarrito() {
+    }
 }

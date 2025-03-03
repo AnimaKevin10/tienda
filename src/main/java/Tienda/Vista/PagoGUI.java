@@ -1,7 +1,6 @@
 package Tienda.Vista;
 
-import Model.MetodoDePago;
-import Model.TarjetaRegalo;
+import Tienda.Modelo.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

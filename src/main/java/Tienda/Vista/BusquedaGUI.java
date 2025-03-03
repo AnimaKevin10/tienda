@@ -1,6 +1,6 @@
 package Tienda.Vista;
 
-import Model.*;
+import Tienda.Modelo.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -83,7 +83,7 @@ public class BusquedaGUI extends JFrame {
             for (int i = 0; i < productos.size(); i++) {
                 Producto producto = productos.get(i);
                 data[i][0] = producto.getTitulo();
-                data[i][1] = producto.getCategoria();
+                //data[i][1] = producto.getCategoria();
                 data[i][2] = producto.getPrecio();
             }
             JTable table = new JTable(data, columnNames);

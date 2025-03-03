@@ -16,10 +16,12 @@ public class CompradorController {
         cargarDatosUsuario();
     }
 
-        vista.getUsuarioNombreField().setText(comprador.getNombre());
-        vista.getUsuarioIdField().setText(String.valueOf(comprador.getIdUsuario()));
-        vista.getUsuarioCorreoField().setText(comprador.getCorreo());
-        vista.getUsuarioDireccionField().setText(comprador.getDireccion());
+    public void cargarDatosUsuario() {
+        //
+        vista.getUsuarioNombre().setText(comprador.getNombre());
+        vista.getUsuarioID().setText(String.valueOf(comprador.getIdUsuario()));
+        vista.getUsuarioCorreo().setText(comprador.getCorreo());
+        vista.getUsuarioDireccion().setText(comprador.getDireccion());
         vista.getUsuarioNacimiento().setText(comprador.getFechaNacimiento());
         vista.getUsuarioTelefono().setText(comprador.getTelefono());
     }

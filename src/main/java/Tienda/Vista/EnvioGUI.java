@@ -1,6 +1,6 @@
 package Tienda.Vista;
 
-import Model.MetodoEnvio;
+import Tienda.Modelo.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

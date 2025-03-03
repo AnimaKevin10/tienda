@@ -35,4 +35,9 @@ public class Producto {
     }
     public double getPrecio() {
         return precio;
-    }}
+    }
+
+    public String getCategoria() {
+            return null;
+    }
+}
