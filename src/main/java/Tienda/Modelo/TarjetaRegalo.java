@@ -1,4 +1,4 @@
-package Model;
+package Tienda.Modelo;
 
 public class TarjetaRegalo implements MetodoDePago {
     private double valor;
