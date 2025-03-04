@@ -12,11 +12,11 @@ import javax.swing.table.DefaultTableModel;
 import Tienda.Modelo.*;
 public class VistaComprador extends javax.swing.JFrame {
     private Comprador comprador;
-    private CompradorController controlador; // Nuevo campo para el controlador
-    private JPanel mainContentPanel; // Panel contenedor CardLayout
-    private JPanel historialPanel;   // Panel para el historial
-    private JTable tablaHistorial;   // Tabla de historial
-    private DefaultTableModel modeloTabla; // Modelo de datos
+    private CompradorController controlador;
+    private JPanel mainContentPanel;
+    private JPanel historialPanel;
+    private JTable tablaHistorial;
+    private DefaultTableModel modeloTabla;
     public VistaComprador(Comprador comprador) {
         this.comprador = comprador;
         initComponents();
@@ -34,34 +34,28 @@ public class VistaComprador extends javax.swing.JFrame {
         return controlador;
     }
     private void configurarContenedorPrincipal() {
-        // 1. Crear contenedor principal CardLayout
         mainContentPanel = new JPanel(new CardLayout());
         mainContentPanel.add(jPanel1, "infoBasica");
         mainContentPanel.add(historialPanel, "historial");
 
-        // 2. Crear panel vertical para foto y menú
         JPanel panelIzquierdo = new JPanel();
         panelIzquierdo.setLayout(new BoxLayout(panelIzquierdo, BoxLayout.Y_AXIS));
         panelIzquierdo.setBackground(new Color(153, 255, 153)); // Color del panel original
 
-        // 3. Configurar foto de perfil
         fotoperfil.setAlignmentX(Component.CENTER_ALIGNMENT);
         fotoperfil.setMaximumSize(new Dimension(170, 170));
         panelIzquierdo.add(fotoperfil);
         panelIzquierdo.add(Box.createVerticalStrut(20)); // Espacio entre foto y menú
 
-        // 4. Configurar scroll del menú
         slidemenu.setPreferredSize(new Dimension(180, 300));
         slidemenu.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelIzquierdo.add(slidemenu);
 
-        // 5. Reorganizar el panel principal (jPanel6)
         jPanel6.removeAll();
         jPanel6.setLayout(new BorderLayout(20, 0)); // Espacio horizontal de 20px
         jPanel6.add(panelIzquierdo, BorderLayout.WEST);
         jPanel6.add(mainContentPanel, BorderLayout.CENTER);
 
-        // 6. Ajustes finales
         jPanel6.revalidate();
         jPanel6.repaint();
 
@@ -70,12 +64,10 @@ public class VistaComprador extends javax.swing.JFrame {
     private void crearPanelHistorial() {
         historialPanel = new JPanel(new BorderLayout());
 
-        // Configurar modelo de tabla
         String[] columnas = {"Fecha", "Producto", "Cantidad", "Total"};
         modeloTabla = new DefaultTableModel(columnas, 0);
         tablaHistorial = new JTable(modeloTabla);
 
-        // Estilo de la tabla
         tablaHistorial.setRowHeight(30);
         tablaHistorial.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 14));
 
@@ -86,7 +78,6 @@ public class VistaComprador extends javax.swing.JFrame {
     }
 
     private void configurarCamposSoloLectura() {
-        // Campos de usuario (no editables)
         usuarioNombre.setEditable(false);
         usuarioID.setEditable(false);
         usuarioCorreo.setEditable(false);
@@ -94,7 +85,7 @@ public class VistaComprador extends javax.swing.JFrame {
         usuarioNacimiento.setEditable(false);
         usuarioTelefono.setEditable(false);
 
-        // Estilo visual para campos no editables
+
         Color colorFondo = new Color(240, 240, 240); // Gris claro
         usuarioNombre.setBackground(colorFondo);
         usuarioID.setBackground(colorFondo);
@@ -153,12 +144,13 @@ public class VistaComprador extends javax.swing.JFrame {
         // Añadir elementos al nuevo panel
         Color colorBoton = new Color(0, 153, 153);
         // Añadir elementos al nuevo panel
-        for(int i = 1; i <= 5; i++) {
-            String textoBoton = switch(i) {
+        for (int i = 1; i <= 4; i++) {
+            String textoBoton = switch (i) {
                 case 1 -> "Información Básica";
                 case 2 -> "Historial de Compras";
                 case 3 -> "Métodos de Pago";
-                default -> "Opción " + i;
+                case 4 -> "Cerrar Sesión";
+                default -> "Opción Desconocida";
             };
 
             JButton boton = new JButton(textoBoton);
@@ -172,7 +164,12 @@ public class VistaComprador extends javax.swing.JFrame {
                     System.out.println("[DEBUG] Transacciones: " + comprador.getHistorial().getTransacciones().size());
                     controlador.cargarHistorialCompras();
                     mostrarPanel("historial");
-                }
+                } else if (textoBoton.equals("Métodos de Pago")) {
+                    new PagoGUI().setVisible(true);
+                } else if (textoBoton.equals("Cerrar Sesión")) {
+                new InicioSesion().setVisible(true);
+                this.dispose();
+            }
             });
             boton.setMaximumSize(new Dimension(180, 40));
             boton.setAlignmentX(0.5f);

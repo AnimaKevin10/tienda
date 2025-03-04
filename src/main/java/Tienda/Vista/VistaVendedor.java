@@ -223,11 +223,11 @@ public class VistaVendedor extends javax.swing.JFrame {
                     controlador.cargarHistorialVentas();
                     mostrarPanel("ventas");
                 } else if (textoBoton.equals("Productos disponibles")) {
-                    // Aquí se podría invocar un método del controlador para cargar inventario
+                    // Aquí se podría invocar un metodo del controlador para cargar inventario
                     mostrarPanel("productos");
                 } else if (textoBoton.equals("Cerrar Sesión")) {
-                    // Lógica para cerrar sesión (puede llamarse a un método del controlador o cerrar la vista)
-                    System.exit(0);
+                    new InicioSesion().setVisible(true);
+                    this.dispose();
                 }
             });
             boton.setMaximumSize(new Dimension(180, 40));

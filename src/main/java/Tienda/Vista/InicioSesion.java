@@ -19,8 +19,9 @@ public class InicioSesion extends javax.swing.JFrame {
 
     public InicioSesion() {
         initComponents();
-        this.setLocationRelativeTo(this);
+        this.setLocationRelativeTo(null);
         SetImageLabel(jLabel1, "C:/Users/AnimaKevin/OneDrive/Desktop/codigo/tienda/src/main/resources/Usuario.png");
+        new LoginController(this);
     }
 
     private void SetImageLabel(JLabel labelName, String root) {

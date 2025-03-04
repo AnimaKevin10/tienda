@@ -21,8 +21,8 @@ public class LoginController extends MouseAdapter {
     }
 
     private void configurarAccesos() {
-        vista.getJLabel3().setEnabled(false); // Ejemplo de uso de getter
-        vista.agregarControlador(this); // Conecta el botón al controlador
+        //vista.getJLabel3().setEnabled(false);
+        vista.agregarControlador(this);
     }
 
     @Override

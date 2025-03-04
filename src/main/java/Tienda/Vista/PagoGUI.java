@@ -12,7 +12,7 @@ public class PagoGUI extends JFrame {
     public PagoGUI() {
         setTitle("Seleccionar Método de Pago");
         setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new FlowLayout());
 
         JButton tarjetaButton = new JButton("Tarjeta de Crédito");
@@ -21,7 +21,6 @@ public class PagoGUI extends JFrame {
         tarjetaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implementar lógica para tarjeta de crédito
                 JOptionPane.showMessageDialog(PagoGUI.this, "Tarjeta de crédito seleccionada");
             }
         });
@@ -40,6 +39,7 @@ public class PagoGUI extends JFrame {
         add(new JLabel("Seleccione un método de pago:"));
         add(tarjetaButton);
         add(tarjetaRegaloButton);
+        setLocationRelativeTo(null);
     }
 
     public MetodoDePago getMetodoPago() {
