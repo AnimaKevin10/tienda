@@ -6,29 +6,61 @@ package Tienda.Vista;
 
 import Tienda.Controlador.VendedorController;
 import Tienda.Modelo.Vendedor;
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class VistaVendedor extends javax.swing.JFrame {
-
     private Vendedor vendedor;
-    private VendedorController controlador; // Nuevo campo para el controlador
-    private JPanel mainContentPanel; // Panel contenedor CardLayout
-    private JPanel ventasPanel;       // Panel para el historial de ventas
-    private JTable tablaVentas;       // Tabla de historial de ventas
-    private DefaultTableModel modeloTabla; // Modelo de datos para la tabla
+    private VendedorController controlador; // Controlador asociado
+    private JPanel mainContentPanel; // Panel contenedor con CardLayout
+    private JPanel infoBasicaPanel;   // Panel de información básica
+    private JPanel ventasPanel;       // Panel de historial de ventas
+    private JPanel panelProductos;    // Panel para productos disponibles
+    private JTable tablaVentas;       // Tabla para historial de ventas
+    private DefaultTableModel modeloTabla; // Modelo de la tabla de ventas
+
+    // Nueva tabla para el inventario (productos disponibles)
     private JTable tablaInventario;
-    ;
-    private JPanel panelInventario; // ← Añade esta líne;
+    private DefaultTableModel modeloInventario;
+
+    // Componentes de la sección de información básica
+    // Se reutiliza jPanel1 para esta sección (infoBasicaPanel)
+    // Además, se añade el campo de saldo
+    private javax.swing.JTextField tituloSaldo;
+    private javax.swing.JTextField vendedorSaldo;
+
+    // Componentes generados (no modificables)
+    private javax.swing.JLabel fotoperfil;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane slidemenu;
+    private javax.swing.JTextField tituloCorreo;
+    private javax.swing.JTextField tituloDireccion;
+    private javax.swing.JTextField tituloID;
+    private javax.swing.JTextField tituloNacimiento;
+    private javax.swing.JTextField tituloNombre;
+    private javax.swing.JTextField tituloTelefono;
+    private javax.swing.JTextField vendedorCorreo;
+    private javax.swing.JTextField vendedorDireccion;
+    private javax.swing.JTextField vendedorID;
+    private javax.swing.JTextField vendedorNacimiento;
+    private javax.swing.JTextField vendedorNombre;
+    private javax.swing.JTextField vendedorTelefono;
 
     public VistaVendedor(Vendedor vendedor) {
         this.vendedor = vendedor;
         initComponents();
-        configurarContenedorPrincipal(); // 1. Inicializar mainContentPanel
-        crearPanelVentas(); // 2. Crear ventasPanel
-        crearPanelInventario(); // 3. Crear panelInventario
+
+        // Usaremos jPanel1 para la información básica
+        infoBasicaPanel = jPanel1;
+
+        crearPanelVentas();
+        crearPanelProductos();
+        configurarContenedorPrincipal();
+
         this.controlador = new VendedorController(vendedor, this);
         this.setLocationRelativeTo(this);
         SetImageLabel(fotoperfil, "C:/Users/AnimaKevin/OneDrive/Desktop/codigo/tienda/src/main/resources/foto.png");
@@ -41,21 +73,48 @@ public class VistaVendedor extends javax.swing.JFrame {
     }
 
     private void configurarContenedorPrincipal() {
+        // Creamos el contenedor principal con CardLayout y agregamos las 3 tarjetas
         mainContentPanel = new JPanel(new CardLayout());
+        mainContentPanel.add(infoBasicaPanel, "infoBasica");
+        mainContentPanel.add(ventasPanel, "ventas");
+        mainContentPanel.add(panelProductos, "productos");
+
+        // Creamos un panel para el menú que incluya la foto y el slidemenu
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+        // Agregamos la foto (asegúrate que fotoperfil tenga un tamaño definido o use setPreferredSize)
+        menuPanel.add(fotoperfil);
+        // Agregamos un espacio
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        // Agregamos el slidemenu
+        menuPanel.add(slidemenu);
+        // Opcional: fija el tamaño preferido para el menuPanel
+        menuPanel.setPreferredSize(new Dimension(200, menuPanel.getPreferredSize().height));
+
+        // Configuramos jPanel6 con BorderLayout para ubicar el menú y el panel principal
         jPanel6.removeAll();
-        jPanel6.add(mainContentPanel);
+        jPanel6.setLayout(new BorderLayout());
+
+        // Se agrega el menuPanel en el lado izquierdo (WEST)
+        jPanel6.add(menuPanel, BorderLayout.WEST);
+
+        // Se agrega el mainContentPanel en el centro (CENTER)
+        jPanel6.add(mainContentPanel, BorderLayout.CENTER);
+
         jPanel6.revalidate();
+        jPanel6.repaint();
     }
 
     private void crearPanelVentas() {
+        // Panel para historial de ventas
         ventasPanel = new JPanel(new BorderLayout());
 
-        // Configurar modelo de tabla para historial de ventas
-        String[] columnas = {"Fecha", "Producto", "Cantidad", "Total"};
+        // Modelo de tabla con columna "Comprador"
+        String[] columnas = {"Fecha", "Producto", "Cantidad", "Total", "Comprador"};
         modeloTabla = new DefaultTableModel(columnas, 0);
         tablaVentas = new JTable(modeloTabla);
 
-        // Estilo de la tabla
+        // Estilo a la tabla
         tablaVentas.setRowHeight(30);
         tablaVentas.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 14));
 
@@ -63,49 +122,62 @@ public class VistaVendedor extends javax.swing.JFrame {
         scrollVentas.setPreferredSize(new Dimension(700, 400));
 
         ventasPanel.add(scrollVentas, BorderLayout.CENTER);
-        mainContentPanel.add(ventasPanel, "ventas"); // Añadir a mainContentPanel
     }
-    private void crearPanelInventario() {
-        panelInventario = new JPanel(new BorderLayout());
-        String[] columnas = {"SKU", "Producto", "Precio", "Tipo", "Stock"};
-        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
-        tablaInventario = new JTable(modelo);
 
-        panelInventario.add(new JScrollPane(tablaInventario), BorderLayout.CENTER);
-        mainContentPanel.add(panelInventario, "inventario"); // Añadir a mainContentPanel
+    private void crearPanelProductos() {
+        // Panel para "Productos disponibles"
+        panelProductos = new JPanel(new BorderLayout());
+
+        // Crear tabla de inventario
+        String[] columnasInventario = {"Producto", "Precio", "Stock", "Categoría"};
+        modeloInventario = new DefaultTableModel(columnasInventario, 0);
+        tablaInventario = new JTable(modeloInventario);
+
+        tablaInventario.setRowHeight(30);
+        tablaInventario.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 14));
+
+        JScrollPane scrollInventario = new JScrollPane(tablaInventario);
+        scrollInventario.setPreferredSize(new Dimension(700, 400));
+
+        JLabel labelTitulo = new JLabel("Productos disponibles", SwingConstants.CENTER);
+        labelTitulo.setFont(new Font("Roboto", Font.BOLD, 24));
+        panelProductos.add(labelTitulo, BorderLayout.NORTH);
+        panelProductos.add(scrollInventario, BorderLayout.CENTER);
     }
 
     private void configurarCamposSoloLectura() {
-        // Campos de usuario (no editables)
+        // Campos de información básica (no editables)
         vendedorNombre.setEditable(false);
         vendedorID.setEditable(false);
         vendedorCorreo.setEditable(false);
         vendedorDireccion.setEditable(false);
         vendedorNacimiento.setEditable(false);
         vendedorTelefono.setEditable(false);
+        // Suponemos que ya se agregó vendedorSaldo en el panel
+        vendedorSaldo.setEditable(false);
 
-        // Estilo visual para campos no editables
-        Color colorFondo = new Color(240, 240, 240); // Gris claro
+        Color colorFondo = new Color(240, 240, 240);
         vendedorNombre.setBackground(colorFondo);
         vendedorID.setBackground(colorFondo);
         vendedorCorreo.setBackground(colorFondo);
         vendedorDireccion.setBackground(colorFondo);
         vendedorNacimiento.setBackground(colorFondo);
         vendedorTelefono.setBackground(colorFondo);
+        vendedorSaldo.setBackground(colorFondo);
 
-        // Campos de título (comportamiento como JLabel)
+        // Los títulos se comportan como etiquetas
         tituloNombre.setEditable(false);
         tituloID.setEditable(false);
         tituloCorreo.setEditable(false);
         tituloDireccion.setEditable(false);
         tituloNacimiento.setEditable(false);
         tituloTelefono.setEditable(false);
+        tituloSaldo.setEditable(false);
 
-        // Quitar bordes y fondo de títulos
-        Color colorTitulo = new Color(153, 255, 153); // Verde claro del panel
+        Color colorTitulo = new Color(153, 255, 153);
         for (JTextField titulo : new JTextField[]{
                 tituloNombre, tituloID, tituloCorreo,
-                tituloDireccion, tituloNacimiento, tituloTelefono
+                tituloDireccion, tituloNacimiento, tituloTelefono, tituloSaldo
         }) {
             titulo.setBorder(null);
             titulo.setBackground(colorTitulo);
@@ -113,75 +185,49 @@ public class VistaVendedor extends javax.swing.JFrame {
         }
     }
 
-    // Getters para los campos (adaptados para vendedor)
-    public JTextField getVendedorNombre() {
-        return vendedorNombre;
-    }
+    // Getters para la sección de información básica
+    public JTextField getVendedorNombre() { return vendedorNombre; }
+    public JTextField getVendedorID() { return vendedorID; }
+    public JTextField getVendedorCorreo() { return vendedorCorreo; }
+    public JTextField getVendedorDireccion() { return vendedorDireccion; }
+    public JTextField getVendedorNacimiento() { return vendedorNacimiento; }
+    public JTextField getVendedorTelefono() { return vendedorTelefono; }
+    public JTextField getVendedorSaldo() { return vendedorSaldo; }
 
-    public JTextField getVendedorID() {
-        return vendedorID;
-    }
-
-    public JTextField getVendedorCorreo() {
-        return vendedorCorreo;
-    }
-
-    public JTextField getVendedorDireccion() {
-        return vendedorDireccion;
-    }
-
-    public JTextField getVendedorNacimiento() {
-        return vendedorNacimiento;
-    }
-
-    public JTextField getVendedorTelefono() {
-        return vendedorTelefono;
-    }
+    // Nuevo getter para la tabla de inventario
+    public JTable getTablaInventario() { return tablaInventario; }
 
     private void configurarMenuDeslizable() {
-        // Crear un nuevo panel para el menú
+        // Panel para el menú deslizable
         JPanel panelMenu = new JPanel();
         panelMenu.setBackground(new Color(240, 240, 240));
         panelMenu.setLayout(new BoxLayout(panelMenu, BoxLayout.Y_AXIS));
 
-        // Configurar el scroll
         slidemenu.setBorder(null);
         slidemenu.setViewportView(panelMenu);
         slidemenu.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        // Personalizar barra de scroll
         JScrollBar verticalScrollBar = slidemenu.getVerticalScrollBar();
         verticalScrollBar.setUI(new CustomScrollBarUI());
         verticalScrollBar.setPreferredSize(new Dimension(12, 0));
 
-        // Añadir elementos al nuevo panel
+        // Se agregan 4 opciones: Información Básica, Historial de Ventas, Productos disponibles y Cerrar Sesión
         Color colorBoton = new Color(0, 153, 153);
-        for (int i = 1; i <= 5; i++) {
-            String textoBoton = switch (i) {
-                case 1 -> "Información Básica";
-                case 2 -> "Historial de Ventas";
-                case 3 -> "Gestión de Inventario";
-                case 4 -> "Añadir Saldo";
-                default -> "Opción " + i;
-            };
-
+        String[] opciones = {"Información Básica", "Historial de Ventas", "Productos disponibles", "Cerrar Sesión"};
+        for (String textoBoton : opciones) {
             JButton boton = new JButton(textoBoton);
-
             boton.addActionListener(e -> {
-                switch (textoBoton) {
-                    case "Información Básica":
-                        mostrarPanel("infoBasica");
-                        break;
-                    case "Historial de Ventas":
-                        controlador.cargarHistorialVentas();
-                        mostrarPanel("historial");
-                        break;
-                    case "Gestión de Inventario":
-                        controlador.gestionarInventario();
-                        break;
-                    case "Añadir Saldo":
-                        controlador.agregarSaldo();
-                        break;
+                if (textoBoton.equals("Información Básica")) {
+                    mostrarPanel("infoBasica");
+                } else if (textoBoton.equals("Historial de Ventas")) {
+                    controlador.cargarHistorialVentas();
+                    mostrarPanel("ventas");
+                } else if (textoBoton.equals("Productos disponibles")) {
+                    // Aquí se podría invocar un método del controlador para cargar inventario
+                    mostrarPanel("productos");
+                } else if (textoBoton.equals("Cerrar Sesión")) {
+                    // Lógica para cerrar sesión (puede llamarse a un método del controlador o cerrar la vista)
+                    System.exit(0);
                 }
             });
             boton.setMaximumSize(new Dimension(180, 40));
@@ -206,12 +252,18 @@ public class VistaVendedor extends javax.swing.JFrame {
         this.repaint();
     }
 
+    private void mostrarPanel(String nombrePanel) {
+        CardLayout cl = (CardLayout) mainContentPanel.getLayout();
+        cl.show(mainContentPanel, nombrePanel);
+        mainContentPanel.revalidate();
+        mainContentPanel.repaint();
+    }
+
     // NO MODIFICAR NADA DEBAJO DE ESTA LÍNEA (CÓDIGO GENERADO POR NETBEANS)
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        tituloSaldo = new javax.swing.JTextField();
-        usuarioSaldo = new javax.swing.JTextField();
+
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         fotoperfil = new javax.swing.JLabel();
@@ -223,6 +275,7 @@ public class VistaVendedor extends javax.swing.JFrame {
         tituloID = new javax.swing.JTextField();
         tituloCorreo = new javax.swing.JTextField();
         tituloDireccion = new javax.swing.JTextField();
+        tituloSaldo = new javax.swing.JTextField();
         vendedorID = new javax.swing.JTextField();
         vendedorDireccion = new javax.swing.JTextField();
         vendedorNombre = new javax.swing.JTextField();
@@ -231,19 +284,13 @@ public class VistaVendedor extends javax.swing.JFrame {
         vendedorNacimiento = new javax.swing.JTextField();
         tituloTelefono = new javax.swing.JTextField();
         vendedorTelefono = new javax.swing.JTextField();
+        vendedorSaldo = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setResizable(false);
-        tituloSaldo.setFont(new java.awt.Font("Roboto Black", 1, 18));
-        tituloSaldo.setText("SALDO:");
-        tituloSaldo.setEditable(false);
-        tituloSaldo.setBorder(null);
-        tituloSaldo.setBackground(new Color(153, 255, 153));
-        usuarioSaldo.setFont(new java.awt.Font("Roboto Black", 0, 18));
-        usuarioSaldo.setEditable(false);
-        usuarioSaldo.setBackground(new Color(240, 240, 240));
+
         jPanel5.setBackground(new java.awt.Color(0, 51, 51));
         jPanel5.setToolTipText("");
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -254,6 +301,7 @@ public class VistaVendedor extends javax.swing.JFrame {
         fotoperfil.setText("foto");
 
         slidemenu.setBackground(new java.awt.Color(0, 153, 204));
+        slidemenu.setPreferredSize(new Dimension(200, slidemenu.getHeight()));
 
         jScrollPane1.setBackground(new java.awt.Color(0, 153, 204));
         jScrollPane1.setForeground(new java.awt.Color(0, 153, 204));
@@ -292,6 +340,14 @@ public class VistaVendedor extends javax.swing.JFrame {
         tituloDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tituloDireccionActionPerformed(evt);
+            }
+        });
+
+        tituloSaldo.setFont(new java.awt.Font("Roboto Black", 1, 18)); // NOI18N
+        tituloSaldo.setText("SALDO:");
+        tituloSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tituloSaldoActionPerformed(evt);
             }
         });
 
@@ -359,6 +415,14 @@ public class VistaVendedor extends javax.swing.JFrame {
             }
         });
 
+        vendedorSaldo.setFont(new java.awt.Font("Roboto Black", 0, 18)); // NOI18N
+        vendedorSaldo.setText("vendedorSaldo");
+        vendedorSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vendedorSaldoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -383,11 +447,11 @@ public class VistaVendedor extends javax.swing.JFrame {
                                                         .addComponent(tituloSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(35, 35, 35)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(vendedorSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(vendedorNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(vendedorCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(vendedorID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(vendedorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(usuarioSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addComponent(vendedorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -412,7 +476,7 @@ public class VistaVendedor extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(tituloSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(usuarioSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(vendedorSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(tituloDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,6 +485,7 @@ public class VistaVendedor extends javax.swing.JFrame {
                                         .addComponent(vendedorTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(30, 30, 30))
         );
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -498,6 +563,10 @@ public class VistaVendedor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tituloDireccionActionPerformed
 
+    private void tituloSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloSaldoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tituloSaldoActionPerformed
+
     private void vendedorIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendedorIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_vendedorIDActionPerformed
@@ -530,39 +599,24 @@ public class VistaVendedor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_vendedorTelefonoActionPerformed
 
-    private void mostrarPanel(String nombrePanel) {
-        CardLayout cl = (CardLayout) (mainContentPanel.getLayout());
-        cl.show(mainContentPanel, nombrePanel);
-    }
+    private void vendedorSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendedorSaldoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vendedorSaldoActionPerformed
 
-    // NUEVO GETTER para el modelo de tabla
+    // NUEVO GETTER para el modelo de tabla de ventas
     public DefaultTableModel getModeloTabla() {
         return modeloTabla;
     }
 
+    // NUEVO GETTER para la tabla de ventas
+    public JTable getTablaVentas() {
+        return tablaVentas;
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField tituloSaldo;
-    private javax.swing.JTextField usuarioSaldo;
-    private javax.swing.JLabel fotoperfil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane slidemenu;
-    private javax.swing.JTextField tituloCorreo;
-    private javax.swing.JTextField tituloDireccion;
-    private javax.swing.JTextField tituloID;
-    private javax.swing.JTextField tituloNacimiento;
-    private javax.swing.JTextField tituloNombre;
-    private javax.swing.JTextField tituloTelefono;
-    private javax.swing.JTextField vendedorCorreo;
-    private javax.swing.JTextField vendedorDireccion;
-    private javax.swing.JTextField vendedorID;
-    private javax.swing.JTextField vendedorNacimiento;
-    private javax.swing.JTextField vendedorNombre;
-    private javax.swing.JTextField vendedorTelefono;
     // End of variables declaration//GEN-END:variables
 
     static class CustomScrollBarUI extends javax.swing.plaf.basic.BasicScrollBarUI {
@@ -608,17 +662,5 @@ public class VistaVendedor extends javax.swing.JFrame {
             );
             g2.dispose();
         }
-    }
-
-    public JTable getTablaVentas() {
-        return tablaVentas;
-    }
-
-    public JTextField getVendedorSaldo() {
-        return usuarioSaldo;
-    }
-
-    public JTable getTablaInventario() {
-        return tablaInventario;
     }
 }
