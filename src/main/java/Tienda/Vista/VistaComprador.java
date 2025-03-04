@@ -153,7 +153,7 @@ public class VistaComprador extends javax.swing.JFrame {
         // Añadir elementos al nuevo panel
         Color colorBoton = new Color(0, 153, 153);
         // Añadir elementos al nuevo panel
-        for(int i = 1; i <= 10; i++) {
+        for(int i = 1; i <= 5; i++) {
             String textoBoton = switch(i) {
                 case 1 -> "Información Básica";
                 case 2 -> "Historial de Compras";

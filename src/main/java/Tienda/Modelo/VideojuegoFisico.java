@@ -15,6 +15,10 @@ public class VideojuegoFisico extends Videojuego {
             super(titulo, precio);
     }
 
+    public VideojuegoFisico(String titulo, String sku, double precio, String genero, int stock) {
+        super(titulo, sku, precio, genero, stock);
+    }
+
     // ------------------ Getters ------------------
     public double getPeso() {
         return peso;

@@ -4,17 +4,28 @@ import java.util.ArrayList;
 public class Vendedor extends Usuario {
     private List<Producto> inventario;
     private double saldo;
+    private Historial historialVentas;
 
-    // Constructor con autenticación
-    public Vendedor(int idUsuario, String nombre, String correo, String contrasena, String direccion) {
-        super(idUsuario, nombre, correo, contrasena, direccion);
-        this.inventario = new ArrayList<>();
-        this.saldo = 0.0;
+    public Vendedor(int idUsuario,
+                    String nombre,
+                    String correo,
+                    String contrasena,
+                    String fechaNacimiento,
+                    String telefono,
+                    Historial historialVentas) {
+        super(idUsuario, nombre, correo, contrasena, fechaNacimiento);
+        super.setTelefono(telefono);
+        this.inventario = new ArrayList<>(); // ← Inicializa la lista
+        this.historialVentas = historialVentas;
     }
     public Vendedor(int idUsuario, String nombre) {
         super(idUsuario, nombre);
         this.inventario = new ArrayList<>();
         this.saldo = 0.0;
+    }
+
+    public Vendedor(int id, String nombre, String correo, String contraseña, String direccion) {
+            super(id, nombre, correo, contraseña, direccion);
     }
 
     // Publicar un producto en el inventario
@@ -36,7 +47,6 @@ public class Vendedor extends Usuario {
         }
         System.out.println("Producto no encontrado.");
     }
-
     // Añadir saldo tras una venta exitosa
     public void agregarSaldo(double monto) {
         if (monto > 0) {
@@ -45,8 +55,16 @@ public class Vendedor extends Usuario {
         }
     }
 
-    // Getter para el inventario (usado en la GUI)
+    public Historial getHistorialVentas() {
+        return historialVentas;
+    }
+
+    // Getter para saldo
+    public double getSaldo() {
+        return saldo;
+    }
     public List<Producto> getInventario() {
         return inventario;
     }
+
 }

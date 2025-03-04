@@ -15,6 +15,10 @@ public class VideojuegoDigital extends Videojuego {
         super(titulo, precio);
     }
 
+    public VideojuegoDigital(String titulo, String sku, double precio, String genero, int stock) {
+            super(titulo, sku, precio, genero, stock);
+    }
+
     // ------------------ Getters ------------------
     public double getTamanioDescarga() {
         return tamanoDescarga;

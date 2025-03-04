@@ -25,6 +25,13 @@ public class Producto {
         this.precio=precio;
     }
 
+    public Producto(String titulo, String sku, double precio, String genero, int stock) {
+        this.titulo=titulo;
+        this.sku=sku;
+        this.precio=precio;
+        this.stock=stock;
+    }
+
     // ------------------ Getters ------------------
     public int getStock() {
         return stock;

@@ -2,9 +2,12 @@ package Tienda.Controlador;
 
 import Tienda.Modelo.Comprador;
 import Tienda.Modelo.Historial;
+import Tienda.Modelo.Vendedor;
 import Tienda.Vista.EnvioGUI;
 import Tienda.Vista.InicioSesion;
 import Tienda.Vista.VistaComprador;
+import Tienda.Vista.VistaVendedor;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
@@ -30,7 +33,7 @@ public class LoginController extends MouseAdapter {
         if (autenticarComprador(usuario, contrasena)) {
             abrirVistaComprador(crearCompradorEjemplo());
         } else if (autenticarVendedor(usuario, contrasena)) {
-            abrirVistaVendedor();
+            abrirVistaVendedor(crearVendedorEjemplo());
         } else {
             mostrarErrorCredenciales();
         }
@@ -56,15 +59,26 @@ public class LoginController extends MouseAdapter {
                 new Historial()
         );
     }
+    private Vendedor crearVendedorEjemplo() {
+        return new Vendedor(
+                123,
+                "Ronald Pérez",
+                "Rana@tienda.com",
+                "c2ontraseña",
+                 "2000-01-01",
+                 "323231123",
+                new Historial()
+        );
+    }
 
     private void abrirVistaComprador(Comprador comprador) {
         vista.dispose();
         new VistaComprador(comprador).setVisible(true);
     }
 
-    private void abrirVistaVendedor() {
+    private void abrirVistaVendedor(Vendedor vendedor) {
         vista.dispose();
-        new EnvioGUI().setVisible(true);
+        new VistaVendedor(vendedor).setVisible(true);
     }
 
     private void mostrarErrorCredenciales() {

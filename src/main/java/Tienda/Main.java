@@ -6,30 +6,82 @@ import Tienda.Modelo.*;
 
 public class Main {
     public static void main(String[] args) {
-
+        // Configurar vista y controlador de login
         InicioSesion vistaLogin = new InicioSesion();
-        LoginController controlador = new LoginController(vistaLogin); // El controlador ya se vincula automáticamente
-        Comprador comprador = new Comprador(12,"Juan", "juan@example.com", "123456", "Calle 123", "01/01/1990", "555-1234",new Historial());
-        VistaComprador vista = new VistaComprador(comprador);
+        LoginController loginController = new LoginController(vistaLogin);
 
-        // Añadir datos de prueba
-        agregarDatosPrueba(comprador);
-
-        // Mostrar la vista
-        vista.setVisible(true);
+        // Crear datos demo
+        crearDatosDemo(vistaLogin);
     }
 
-    private static void agregarDatosPrueba(Comprador comprador) {
-        // Crear productos de prueba
-        Producto producto1 = new VideojuegoDigital("Cyberpunk 2077", 59.99);
-        Producto producto2 = new VideojuegoFisico("The Legend of Zelda", 69.99);
+    private static void crearDatosDemo(InicioSesion vistaLogin) {
+        // ================== CREAR COMPRADOR ================== //
+        Comprador compradorDemo = new Comprador(
+                1,                          // idUsuario
+                "Juan Pérez",               // nombre
+                "juan@comprador.com",       // correo
+                "clave123",                 // contraseña
+                "1990-01-01",               // fechaNacimiento
+                "Calle Falsa 123",          // dirección
+                "555-1234",                 // teléfono
+                new Historial()             // historial
+        );
 
-        Transaccion t1 = new Transaccion(comprador, new Vendedor(10,"kev","kedan","123","123"), producto1, 59.99, "Tarjeta");
-        Transaccion t2 = new Transaccion(comprador, new Vendedor(120,"dan","ken","1233","1223"), producto2, 69.99, "Efectivo");
+        // ================== CREAR VENDEDOR ================== //
+        Vendedor vendedorDemo = new Vendedor(
+                2,                          // idUsuario
+                "Ana López",                // nombre
+                "ana@vendedor.com",         // correo
+                "clave456",                 // contraseña
+                "1985-05-15",               // fechaNacimiento
+                "555-9876",                 // teléfono
+                new Historial()             // historialVentas
+        );
+        vendedorDemo.agregarSaldo(1500.00);
 
-        comprador.getHistorial().agregarTransaccion(t1);
-        comprador.getHistorial().agregarTransaccion(t2);
+        // ================== PRODUCTOS DEMO ================== //
+        VideojuegoDigital cyberpunk = new VideojuegoDigital(
+                "CP2077",
+                "Cyberpunk 2077",
+                59.99,
+                "Juego de rol futurista",
+                50
+        );
 
-        System.out.println("[PRUEBA] 2 transacciones añadidas al historial");
+        VideojuegoFisico zelda = new VideojuegoFisico(
+                "ZELDA1",
+                "The Legend of Zelda",
+                69.99,
+                "Aventura épica",
+                30
+        );
+
+        // Publicar productos en el inventario del vendedor
+        vendedorDemo.publicarProducto(cyberpunk);
+        vendedorDemo.publicarProducto(zelda);
+
+        // ================== TRANSACCIÓN DEMO ================== //
+        Transaccion transaccionDemo = new Transaccion(
+                compradorDemo,
+                vendedorDemo,
+                cyberpunk,
+                1,          // cantidad
+                59.99,      // total
+                "Tarjeta"   // método de pago
+        );
+
+        // Registrar en ambos historiales
+        compradorDemo.getHistorial().agregarTransaccion(transaccionDemo);
+        vendedorDemo.getHistorialVentas().agregarTransaccion(transaccionDemo);
+
+        // ================== CONFIGURAR VISTAS ================== //
+        VistaComprador vistaComprador = new VistaComprador(compradorDemo);
+        new CompradorController(compradorDemo, vistaComprador);
+
+        VistaVendedor vistaVendedor = new VistaVendedor(vendedorDemo);
+        new VendedorController(vendedorDemo, vistaVendedor);
+
+        // Mostrar login
+        vistaLogin.setVisible(true);
     }
 }

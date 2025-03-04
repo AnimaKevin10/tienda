@@ -15,6 +15,10 @@ public class Videojuego extends Producto {
         super(titulo, precio);
     }
 
+    public Videojuego(String titulo, String sku, double precio, String genero, int stock) {
+            super(titulo, sku, precio, genero, stock);
+    }
+
     // ------------------ Getters ------------------
     public String getGenero() {
         return genero;
